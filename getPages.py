@@ -298,11 +298,11 @@ def inbox():
             page.addLine(u"<div class='msgHeaderRead' id='H-%s' onclick='ShowHideDiv(\"%s\")'>" % (msgId, msgId), False)
         else:
             page.addLine(u"<div class='msgHeaderUnread' id='H-%s' onclick='ShowHideDiv(\"%s\")'>" % (msgId, msgId), False)
-        page.addLine(u"From: " + getLabelForAddress(message['fromAddress']))
-        page.addLine(u"Subject: " + processText(message['subject'])) 
+        page.addLine(u"<b>From: </b>" + getLabelForAddress(message['fromAddress']))
+        page.addLine(u"<b>Subject: </b>" + processText(message['subject'])) 
         page.addLine(u"</div><div class='msgBody' id='%s'>" % (msgId), False)
-        page.addLine(u"To: " + getLabelForAddress(message['toAddress'])) 
-        page.addLine(u"Received: " + datetime.datetime.fromtimestamp(float(message['receivedTime'])).strftime('%Y-%m-%d %H:%M:%S'))
+        page.addLine(u"<b>To: </b>" + getLabelForAddress(message['toAddress'])) 
+        page.addLine(u"<b>Received: </b>" + datetime.datetime.fromtimestamp(float(message['receivedTime'])).strftime('%Y-%m-%d %H:%M:%S'))
         page.addLine(u"<div class='msgText'>", False)
         page.addLine(processText(message['message'], msgId))
         page.addLine(u"</div>")
@@ -332,6 +332,31 @@ def inbox():
 
     return page.getPage()
 
+def getMsgStatusString(status):
+    """Convert message['status'] to something more readable"""
+    if "msgqueued" in status:
+        return "Message queued"
+    elif "broadcastqueued" in status:
+        return "Broadcast queued"
+    elif "broadcastsent" in status:
+        return "Broadcast sent"
+    elif "doingpubkeypow" in status:
+        return "Doing pubkey POW"
+    elif "awaitingpubkey" in status:
+        return "Awaiting pubkey"
+    elif "doingmsgpow" in status:
+        return "Doing Message POW"
+    elif "forcepow" in status:
+        return "Force POW"
+    elif "msgsent" in status:
+        return "Message sent"
+    elif "msgsentnoackexpected" in status:
+        return "Message sent (No Acknowledgement expected)"
+    elif "ackreceived" in status:
+        return "Message sent (Acknowledgement received)"
+    else:
+        return "Unknown"
+
 def outbox():
     """Returns page with outbox or error page."""
 
@@ -357,13 +382,14 @@ def outbox():
         if msgId == '': #Unsend messages have no id
             msgId = u"fallback_" + str(fallbackId)
             fallbackId += 1
+        # The table is a little bit ugly, caused by the two div's
         page.addLine(u"<div class='msgHeaderRead' id='H-%s' onclick='ShowHideDiv(\"%s\")'>" % (msgId, msgId), False)
-        page.addLine(u"To: " + getLabelForAddress(message['toAddress'])) 
-        page.addLine(u"Subject: " + processText(message['subject'])) 
+        page.addLine(u"<b>To: </b>" + getLabelForAddress(message['toAddress'])) 
+        page.addLine(u"<b>Subject: </b>" + processText(message['subject'])) 
         page.addLine(u"</div><div class='msgBody' id='%s'>" % (msgId), False)
-        page.addLine(u"From: " + getLabelForAddress(message['fromAddress']))
-        page.addLine(u"Status: " + message['status']) 
-        page.addLine(u"Send: " + datetime.datetime.fromtimestamp(float(message['lastActionTime'])).strftime('%Y-%m-%d %H:%M:%S'))
+        page.addLine(u"<b>From: </b>" + getLabelForAddress(message['fromAddress']))
+        page.addLine(u"<b>Status: </b>" + getMsgStatusString(message['status'])) 
+        page.addLine(u"<b>Send: </b>" + datetime.datetime.fromtimestamp(float(message['lastActionTime'])).strftime('%Y-%m-%d %H:%M:%S'), False)
         page.addLine(u"<div class='msgText'>", False)
         page.addLine(processText(message['message'], msgId))
         page.addLine(u"</div>")
@@ -816,15 +842,15 @@ def connectionStatus():
         try:
             status = json.loads(api.clientStatus())
                 
-            page.addLine(u"<center><table border=1>", False)
-            page.addLine(u"<tr><th>Network status</th><td>"+getNetworkStatusString(status['networkStatus'])+"</td></tr>", False)
-            page.addLine(u"<tr><th>Number of connections</th><td>"+str(status['networkConnections'])+"</td></tr>", False)
-            page.addLine(u"<tr><th>Number of messages processed</th><td>"+str(status['numberOfMessagesProcessed'])+"</td></tr>", False)
-            page.addLine(u"<tr><th>Number of broadcasts processed</th><td>"+str(status['numberOfBroadcastsProcessed'])+"</td></tr>", False)
-            page.addLine(u"<tr><th>Number of pubkeys processed</th><td>"+str(status['numberOfPubkeysProcessed'])+"</td></tr>", False)
-            page.addLine(u"<tr><th>Software</th><td>"+status['softwareName']+"</td></tr>", False)
-            page.addLine(u"<tr><th>Software Version</th><td>"+status['softwareVersion']+"</td></tr>", False)
-            page.addLine(u"</table></center>", False) 
+            page.addLine(u"<div class='msgText'>", False)
+            page.addLine(u"<b>Network status: </b>"+getNetworkStatusString(status['networkStatus']))
+            page.addLine(u"<b>Number of connections: </b>"+str(status['networkConnections']))
+            page.addLine(u"<b>Number of messages processed: </b>"+str(status['numberOfMessagesProcessed']))
+            page.addLine(u"<b>Number of broadcasts processed: </b>"+str(status['numberOfBroadcastsProcessed']))
+            page.addLine(u"<b>Number of pubkeys processed: </b>"+str(status['numberOfPubkeysProcessed']))
+            page.addLine(u"<b>Software: </b>"+status['softwareName'])
+            page.addLine(u"<b>Software Version: </b>"+status['softwareVersion'])
+            page.addLine(u"</div>", False) 
         except:
             isInit = False
             return connectionErrorPage()

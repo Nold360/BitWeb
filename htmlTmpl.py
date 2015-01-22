@@ -33,6 +33,8 @@ body {
     background-color: #FDFDFD;
     text-align: center;
     line-height: 1.5;
+    padding: 0px;
+    margin: 0px;
 }
 
 a {
@@ -48,13 +50,12 @@ a, input.button, select {
     padding: 2px;
     margin-right: 4px;
     border: none;
-} 
+}
 
-a.menu {
-    padding: 5px;
-    margin: 5px;
-    line-height: 2.5;
-    font-size: large;
+select {
+    border: 1px solid black;
+    color: #000000;
+    background-color: #FFFFFF;
 }
 
 input {
@@ -66,29 +67,42 @@ div {
 }
 
 div.msgHeaderRead {
-    background-color: #A0A0A0;
-    padding: 5px;
+    padding: 2px;
+    margin: 5px;
+    background: #DFE2E8;
+    background: linear-gradient(#FCFCFC, #DFE2E8);
 }
 
 div.msgHeaderUnread {
-    color: #EDEDED;
-    background-color: #2B2B2B;
+    color: #000000;
+    background-color: #DFE2E8;
     font-weight: bold;
-    padding: 5px;
+    padding: 2px;
+    margin: 5px;
 }
 
 div.msgText {
-    background-color: #FDFDFD;
-    padding: 5px;
+    margin: 1px;
+    padding: 3px;
+    margin-top: 10px;
+    background-color: #FCFCFC;
     line-height: 1;
+    border: 1px solid #DFE2E8;
 }
 
 div.msgBody, div.addrbookentry, div.subscription {
-    background-color: #C6C6C6;
-    padding: 5px;
+    background-color: #DFE2E8;
+    background: linear-gradient(#DFE2E8, #DCDCDC);
+    padding: 2px;
+    margin: 5px;
+}
+
+div.addrbookentry, div.subscription {
+    background: linear-gradient(#FCFCFC, #DFE2E8);
 }
 
 div.label {
+    border-bottom: 1px solid lightgrey;
     font-weight: bold;
 }
 
@@ -102,6 +116,82 @@ hr {
     height: 4px;
     border: none;
 }
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+#title {
+    float: left;
+    color: #000000;
+    display: inline;
+    padding: 8px 15px;
+    font-size: large;
+    background: none;
+}
+
+#title a, #title a:hover {
+    color: black;
+    text-shadow: #FFFFFF 0px 1px 0px;
+    background: none;
+}
+
+#navigation {
+    width: 100%;
+    text-align: center;
+    list-style: none;
+    color: #7E838A;
+    padding: 8px 0px;
+    margin-top: 0px;
+    background: #B5B9C1;
+    background: linear-gradient(#FCFCFC, #DFE2E8);
+}
+
+#navigation li {
+    display: inline;
+}
+
+#navigation a {
+    color: #5E535A;
+    background: none;
+    margin: 5px;
+    padding: 8px 15px;
+    text-shadow: #FFF 0px 1px 0px
+    font-family: Helvetica,Arial,sans-serif;
+    font-weight: normal;
+}
+
+#navigation a:hover {
+    color: #000000;
+}
+
+@media screen and (max-width : 600px) {
+    #navigation, lu {
+         width: 100%;
+         float: left;
+         padding: 0px 0px;
+         background: none;
+    }
+    #navigation li, #navigation a {
+        display: block;
+        width: 100%;
+        float: left;
+        padding: 2px 0px;
+        margin: 0px 0px;
+        background: linear-gradient(#FCFCFC, #DFE2E8);
+    }
+
+    #title {
+        text-align: center;
+        padding: 8px 0px;
+        margin-bottom: 5px;
+        display: block;
+        width: 100%;
+        background: linear-gradient(#FCFCFC, #DFE2E8);
+    }
+}
+
 
 </style>
 
@@ -181,17 +271,18 @@ function sendForm(id, conf = false) {
 </head>
 
 <body>
-    <a href="inbox" class="menu">Inbox</a>
-    <a href="outbox" class="menu">Outbox</a>
-    <a href="composer" class="menu">New message</a>
-    <a href="subscriptions" class="menu">Subscriptions</a>
-    <a href="chans" class="menu">Chans</a>
-    <a href="addressbook" class="menu">Address book</a>
-    <a href="identities" class="menu">Your identities</a>
-    <a href="status" class="menu">Connection status</a>
-    <a href="logout" class="menu">Logout</a>
-    <br />
-<hr />
+    <div id="title"><a href="https://github.com/ddorian1/BitWeb" target="_blank">BitWeb</a></div>
+    <ul id="navigation">
+        <li><a href="inbox" class="menu">Inbox</a></li>
+        <li><a href="outbox" class="menu">Outbox</a></li>
+        <li><a href="composer" class="menu">New message</a></li>
+        <li><a href="subscriptions" class="menu">Subscriptions</a></li>
+        <li><a href="chans" class="menu">Chans</a></li>
+        <li><a href="addressbook" class="menu">Address book</a></li>
+        <li><a href="identities" class="menu">Your identities</a></li>
+        <li><a href="status" class="menu">Connection status</a></li>
+        <li><a href="logout" class="menu">Logout</a></li>
+    </ul>
 """
 
 footer = """
