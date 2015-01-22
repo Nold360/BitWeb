@@ -43,19 +43,15 @@ a {
 
 a, input.button, select {
     white-space: nowrap;
-    color: #FDFDFD;
-    background-color: #2B2B2B;
+    color: #FFFFFF;
+    background-color: #8e9294;
     text-decoration: none;
     font-weight: bold;
-    padding: 2px;
-    margin-right: 4px;
+    padding: 1px 5px 1px 5px;
+    margin-left: 4px;
     border: none;
-}
-
-select {
-    border: 1px solid black;
-    color: #000000;
-    background-color: #FFFFFF;
+    border-radius: 5px;
+    background-image: linear-gradient(to bottom, #8e9294, #000000);
 }
 
 input {
@@ -94,6 +90,7 @@ div.msgBody, div.addrbookentry, div.subscription {
     background-color: #DFE2E8;
     background: linear-gradient(#DFE2E8, #DCDCDC);
     padding: 2px;
+    padding-bottom: 8px;
     margin: 5px;
 }
 
@@ -104,6 +101,12 @@ div.addrbookentry, div.subscription {
 div.label {
     border-bottom: 1px solid lightgrey;
     font-weight: bold;
+}
+
+div.label a {
+    font-weight: normal;
+    float: right;
+    padding: 0px 2px 0px 2px;
 }
 
 form {
@@ -166,6 +169,11 @@ ul {
     color: #000000;
 }
 
+#container {
+    width:80%;
+    text-align: center;
+}
+
 @media screen and (max-width : 600px) {
     #navigation, lu {
          width: 100%;
@@ -189,6 +197,10 @@ ul {
         display: block;
         width: 100%;
         background: linear-gradient(#FCFCFC, #DFE2E8);
+    }
+
+    #container {
+        width:100%;
     }
 }
 
@@ -283,9 +295,13 @@ function sendForm(id, conf = false) {
         <li><a href="status" class="menu">Connection status</a></li>
         <li><a href="logout" class="menu">Logout</a></li>
     </ul>
+<center>
+<div id='container'>
 """
 
 footer = """
+</div>
+</center>
 <script type="text/javascript">
 if (document.getElementById("focus")) {
     document.getElementById("focus").focus();

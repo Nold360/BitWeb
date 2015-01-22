@@ -460,18 +460,21 @@ def subscriptions():
         label = sanitize(sub['label'].decode('base64').decode('utf-8'))
         page.addLine(u"<div class='subscription'>", False)
         if (sub['enabled']):
-            page.addLine(u"<div class='label'>%s</div>" % (label), False)
+            page.addLine(u"<div class='label'>%s" % (label), False)
         else:
-            page.addLine(label + u" (Disabled)")
-        page.addLine(sub['address'])
+            page.addLine(u"<div class='label'>%s (Disabled)" % (label), False)
+
+        page.addLine(u"<a onclick='sendForm(\"%s\", \"Unsubscribe from %s?\")'>Unsubscribe</a>" % (sub['address'], label), False)
+        page.addLine(u"</div>", False)
+
+        page.addLine(sub['address'], False)
 
         #Hidden form for unsubscribe
         page.addLine(u"<form id='%s' action='unsubscribe' method='post' enctype='multipart/form-data'>" % (sub['address']), False)
         page.addLine(u"<input name='addr' value='%s' type='hidden'>" % (sub['address']), False)
         page.addLine(u"</form>", False)
 
-        page.addLine(u"<a onclick='sendForm(\"%s\", \"Unsubscribe from %s?\")'>Unsubscribe</a>" % (sub['address'], label), False)
-        page.addLine(u"</div>")
+        page.addLine(u"</div>", False)
                   
     return page.getPage()
 
@@ -598,8 +601,14 @@ def addressBook():
             label = sanitize(entry['label'].decode('base64').decode('utf-8'))
             address = entry['address']
             page.addLine(u"<div class='addrbookentry'>", False)
-            page.addLine(u"<div class='label'>%s</div>" % (label), False)
-            page.addLine(address)
+            page.addLine(u"<div class='label'>%s" % (label), False)
+
+            #Add buttons
+            page.addLine(u"<a onclick='sendForm(\"del-%s\", \"Delete %s from addressbook?\")'>Delete</a>" % (address, label), False)
+            page.addLine(u"<a onclick='sendForm(\"msg-%s\")'>Write message</a>" % (address), False)
+            page.addLine(u"</div>", False)
+
+            page.addLine(address, False)
 
             #Hidden form for delete addressbook entry
             page.addLine(u"<form id='del-%s' action='deladdressbookentry' method='post' enctype='multipart/form-data'>" % (address), False)
@@ -611,10 +620,7 @@ def addressBook():
             page.addLine(u"<input name='to' value='%s' type='hidden'>" % (address), False)
             page.addLine(u"</form>", False)
 
-            #Add buttons
-            page.addLine(u"<a onclick='sendForm(\"msg-%s\")'>Write message</a>" % (address), False)
-            page.addLine(u"<a onclick='sendForm(\"del-%s\", \"Delete %s from addressbook?\")'>Delete</a>" % (address, label), False)
-            page.addLine(u"</div>")
+            page.addLine(u"</div>", False)
 
 
     except:
@@ -712,9 +718,13 @@ def chans():
         address = addr['address']
         page.addLine(u"<div class='addrbookentry'>", False)
         if (addr['enabled']):
-            page.addLine(u"<div class='label'>%s</div>" % (label), False)
+            page.addLine(u"<div class='label'>%s" % (label), False)
         else:
-            page.addLine(label + u" (Disabled)")
+            page.addLine(u"<div class='label'>%s (Disabled)" % (label), False)
+
+        page.addLine(u"<a onclick='sendForm(\"%s\", \"Leave chan %s?\")'>Leave</a>" % (address, label), False)
+        page.addLine(u"</div>", False)
+
         page.addLine(address)
 
         #Hidden form to leave chan
@@ -722,9 +732,7 @@ def chans():
         page.addLine(u"<input name='addr' value='%s' type='hidden'>" % (address), False)
         page.addLine(u"</form>", False)
 
-        page.addLine(u"<a onclick='sendForm(\"%s\", \"Leave chan %s?\")'>Leave</a>" % (address, label), False)
-        page.addLine(u"</div>")
-
+        page.addLine(u"</div>", False)
     return page.getPage()
 
 def createChan(pw):
@@ -782,9 +790,13 @@ def identities():
         address = addr['address']
         page.addLine(u"<div class='addrbookentry'>", False)
         if (addr['enabled']):
-            page.addLine(u"<div class='label'>%s</div>" % (label), False)
+            page.addLine(u"<div class='label'>%s" % (label), False)
         else:
-            page.addLine(label + u" (Disabled)")
+            page.addLine(u"<div class='label'>%s (Disabled)" % (label), False)
+
+        page.addLine(u"<a onclick='sendForm(\"%s\", \"Remove %s permanently?\")'>Delete</a>" % (address, label), False)
+        page.addLine(u"</div>", False)
+
         page.addLine(address)
         page.addLine(u"(Stream %s)" % (str(addr['stream'])))
 
@@ -793,8 +805,7 @@ def identities():
         page.addLine(u"<input name='addr' value='%s' type='hidden'>" % (address), False)
         page.addLine(u"</form>", False)
 
-        page.addLine(u"<a onclick='sendForm(\"%s\", \"Remove %s permanently?\")'>Delete</a>" % (address, label), False)
-        page.addLine(u"</div>")
+        page.addLine(u"</div>", False)
 
     return page.getPage()
 
