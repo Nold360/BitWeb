@@ -90,8 +90,8 @@ div.msgBody, div.addrbookentry, div.subscription {
     background-color: #DFE2E8;
     background: linear-gradient(#DFE2E8, #DCDCDC);
     padding: 2px;
-    padding-bottom: 8px;
     margin: 5px;
+    margin-bottom: 10px;
 }
 
 div.addrbookentry, div.subscription {
