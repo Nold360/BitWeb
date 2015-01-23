@@ -238,8 +238,8 @@ function markUnread(id) {
 
 function delMsg(id) {
     callback("delmsg", "msgid=" + id);
-    document.getElementById("H-" + id).style.display = 'none';
     document.getElementById(id).style.display = 'none';
+    document.getElementById("H-" + id).style.display = 'none';
 }
 
 function delSentMsg(id) {
@@ -250,7 +250,8 @@ function delSentMsg(id) {
 
 function ShowHideDiv(id) {
     obj = document.getElementById(id);
-    if (obj.style.display == 'none') {
+    parent = document.getElementById("H-" + id);
+    if (obj.style.display == 'none' && parent.style.display != 'none' ) {
         obj.style.display = 'block';
         markRead(id);
     } else {
