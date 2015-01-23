@@ -103,7 +103,7 @@ div.label {
     font-weight: bold;
 }
 
-div.label a {
+div.label a, div.msgHeaderUnread a, div.msgHeaderRead a {
     font-weight: normal;
     float: right;
     padding: 0px 2px 0px 2px;

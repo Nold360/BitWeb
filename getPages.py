@@ -298,14 +298,20 @@ def inbox():
             page.addLine(u"<div class='msgHeaderRead' id='H-%s' onclick='ShowHideDiv(\"%s\")'>" % (msgId, msgId), False)
         else:
             page.addLine(u"<div class='msgHeaderUnread' id='H-%s' onclick='ShowHideDiv(\"%s\")'>" % (msgId, msgId), False)
-        page.addLine(u"<b>From: </b>" + getLabelForAddress(message['fromAddress']))
+        page.addLine(u"<b>From: </b>" + getLabelForAddress(message['fromAddress']), False)
+
+        #Add buttons 
+        page.addLine(u"<a onclick='delMsg(\"%s\")'>Delete</a>" % (msgId), False)
+        page.addLine(u"<a onclick='markUnread(\"%s\")'>Unread</a>" % (msgId), False)
+        page.addLine(u"<a onclick='sendForm(\"%s\")'>Reply</a>" % (msgId))
+
         page.addLine(u"<b>Subject: </b>" + processText(message['subject'])) 
         page.addLine(u"</div><div class='msgBody' id='%s'>" % (msgId), False)
         page.addLine(u"<b>To: </b>" + getLabelForAddress(message['toAddress'])) 
         page.addLine(u"<b>Received: </b>" + datetime.datetime.fromtimestamp(float(message['receivedTime'])).strftime('%Y-%m-%d %H:%M:%S'))
         page.addLine(u"<div class='msgText'>", False)
         page.addLine(processText(message['message'], msgId))
-        page.addLine(u"</div>")
+        page.addLine(u"</div>", False)
 
         #Prepare text for reply and add it to the link
         to = message['fromAddress']
@@ -324,10 +330,6 @@ def inbox():
         page.addLine(u"<input name='replyto' value='%s' type='hidden'>" % (msgId), False)
         page.addLine(u"</form>", False)
 
-        #Add buttons 
-        page.addLine(u"<a onclick='sendForm(\"%s\")'>Reply</a>" % (msgId), False)
-        page.addLine(u"<a onclick='markUnread(\"%s\")'>Unread</a>" % (msgId), False)
-        page.addLine(u"<a onclick='delMsg(\"%s\")'>Delete</a>" % (msgId))
         page.addLine(u"</div>")
 
     return page.getPage()
@@ -351,7 +353,7 @@ def getMsgStatusString(status):
     elif "msgsent" in status:
         return "Message sent"
     elif "msgsentnoackexpected" in status:
-        return "Message sent (No Acknowledgement expected)"
+        return "Message sent (No acknowledgement expected)"
     elif "ackreceived" in status:
         return "Message sent (Acknowledgement received)"
     else:
@@ -384,7 +386,9 @@ def outbox():
             fallbackId += 1
         # The table is a little bit ugly, caused by the two div's
         page.addLine(u"<div class='msgHeaderRead' id='H-%s' onclick='ShowHideDiv(\"%s\")'>" % (msgId, msgId), False)
-        page.addLine(u"<b>To: </b>" + getLabelForAddress(message['toAddress'])) 
+        page.addLine(u"<b>To: </b>" + getLabelForAddress(message['toAddress']),False) 
+        page.addLine(u"<a onclick='delSentMsg(\"%s\")'>Delete</a>" % (msgId))
+
         page.addLine(u"<b>Subject: </b>" + processText(message['subject'])) 
         page.addLine(u"</div><div class='msgBody' id='%s'>" % (msgId), False)
         page.addLine(u"<b>From: </b>" + getLabelForAddress(message['fromAddress']))
@@ -392,8 +396,7 @@ def outbox():
         page.addLine(u"<b>Send: </b>" + datetime.datetime.fromtimestamp(float(message['lastActionTime'])).strftime('%Y-%m-%d %H:%M:%S'), False)
         page.addLine(u"<div class='msgText'>", False)
         page.addLine(processText(message['message'], msgId))
-        page.addLine(u"</div>")
-        page.addLine(u"<a onclick='delSentMsg(\"%s\")'>Delete</a>" % (msgId))
+        page.addLine(u"</div>", False)
         page.addLine(u"</div>")
 
     return page.getPage()
