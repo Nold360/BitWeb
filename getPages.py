@@ -298,12 +298,7 @@ def inbox():
             page.addLine(u"<div class='msgHeaderRead' id='H-%s' onclick='ShowHideDiv(\"%s\")'>" % (msgId, msgId), False)
         else:
             page.addLine(u"<div class='msgHeaderUnread' id='H-%s' onclick='ShowHideDiv(\"%s\")'>" % (msgId, msgId), False)
-        page.addLine(u"<b>From: </b>" + getLabelForAddress(message['fromAddress']), False)
-
-        #Add buttons 
-        page.addLine(u"<a onclick='delMsg(\"%s\")'>Delete</a>" % (msgId), False)
-        page.addLine(u"<a onclick='markUnread(\"%s\")'>Unread</a>" % (msgId), False)
-        page.addLine(u"<a onclick='sendForm(\"%s\")'>Reply</a>" % (msgId))
+        page.addLine(u"<b>From: </b>" + getLabelForAddress(message['fromAddress']))
 
         page.addLine(u"<b>Subject: </b>" + processText(message['subject'])) 
         page.addLine(u"</div><div class='msgBody' id='%s'>" % (msgId), False)
@@ -330,6 +325,10 @@ def inbox():
         page.addLine(u"<input name='replyto' value='%s' type='hidden'>" % (msgId), False)
         page.addLine(u"</form>", False)
 
+        #Add buttons 
+        page.addLine(u"<a onclick='sendForm(\"%s\")'>Reply</a>" % (msgId), False)
+        page.addLine(u"<a onclick='markUnread(\"%s\")'>Unread</a>" % (msgId), False)
+        page.addLine(u"<a onclick='delMsg(\"%s\")'>Delete</a>" % (msgId), False)
         page.addLine(u"</div>")
 
     return page.getPage()
