@@ -25,4 +25,5 @@ Make sure to select the correct protocol in your browser (http:// or https://), 
 
 BitWeb requires python 2 without any additional packages.
 
-![Screenshot](screenshot.png?raw=true "Screenshot")
+![Screenshot](screenshot1.png?raw=true "Screenshot")
+![Screenshot](screenshot2.png?raw=true "Screenshot Responsive")
